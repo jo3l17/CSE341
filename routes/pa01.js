@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs'); // File system for TA01
+const fs = require('fs'); // File system for pa01
 const router = express.Router();
 // Remember Team Activity 01? 
 // This is the same solution, but implemented in our app using 
@@ -16,11 +16,11 @@ router.get('/', (req, res, next) => {
     res.write('<h1>Welcome to my world!</h1>');
     // navigation to your activities endpoint.
     res.write('<a href="/">Home</a></br>')
-    res.write('<a href="ta01/activities">Activities List</a></br>');
+    res.write('<a href="pa01/activities">Activities List</a></br>');
     // These are navigation links for the stretch challenges
-    res.write('<a href="ta01/stretch-1">Stretch 1 (CSS)</a></br>');
-    res.write('<a href="ta01/stretch-2">Stretch 2 (Write Form input to text input)</a></br>');
-    res.write('<a href="ta01/stretch-3">Stretch 3 (Add two number inputs together)</a></br>');
+    res.write('<a href="pa01/stretch-1">Stretch 1 (CSS)</a></br>');
+    res.write('<a href="pa01/stretch-2">Stretch 2 (Write Form input to text input)</a></br>');
+    res.write('<a href="pa01/stretch-3">Stretch 3 (Add two number inputs together)</a></br>');
     res.write('</body>');
     res.write('</html>');
     return res.end(); // Return so you don't execute remaining code outside of if statement

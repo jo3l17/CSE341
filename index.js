@@ -19,10 +19,10 @@ const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localho
 const app = express();
 
 // Route setup. You can implement more in the future!
-const ta01Routes = require('./routes/ta01');
-const ta02Routes = require('./routes/ta02');
-const ta03Routes = require('./routes/ta03'); 
-const ta04Routes = require('./routes/ta04'); 
+const pa01Routes = require('./routes/pa01');
+const pa02Routes = require('./routes/pa02');
+const pa03Routes = require('./routes/pa03'); 
+const pa04Routes = require('./routes/pa04'); 
 
 app.use(express.static(path.join(__dirname, 'public')))
    .set('views', path.join(__dirname, 'views'))
@@ -33,13 +33,13 @@ app.use(express.static(path.join(__dirname, 'public')))
    //.engine('hbs', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout', extname: 'hbs'})) // For handlebars
    //.set('view engine', 'hbs')
    .use(bodyParser({extended: false})) // For parsing the body of a POST
-   .use('/ta01', ta01Routes)
-   .use('/ta02', ta02Routes) 
-   .use('/ta03', ta03Routes) 
-   .use('/ta04', ta04Routes)
+   .use('/pa01', pa01Routes)
+   .use('/pa02', pa02Routes) 
+   .use('/pa03', pa03Routes) 
+   .use('/pa04', pa04Routes)
    .get('/', (req, res, next) => {
      // This is the primary index, always handled last. 
-     res.render('pages/index', {title: 'Welcome to my CSE341 repo', path: '/'});
+     res.render('pages/index', {title: 'Welcome to my CSE341 repo for Prove Assignments', path: '/'});
     })
    .use((req, res, next) => {
      // 404 page
