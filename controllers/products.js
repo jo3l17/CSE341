@@ -1,7 +1,7 @@
 const Product = require('../models/products');
 
 exports.getAddProduct = (req, res, next) => {
-    res.render('pages/project/add-product', {
+    res.render('project/add-product', {
         title: 'Add Product',
         path: '/add-product',
     });
@@ -16,7 +16,7 @@ exports.postAddProduct = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId, product => {
-        res.render('pages/project/product-detail',{
+        res.render('project/product-detail',{
             title: product.title,
             product,
             path: '/product'
@@ -26,7 +26,7 @@ exports.getProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
     Product.fetchAll((products) => {
-        res.render('pages/project/index', {
+        res.render('project/index', {
             title: 'Project',
             products,
             hasProducts: products.length > 0,
