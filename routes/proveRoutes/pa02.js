@@ -26,7 +26,7 @@ router.get('/books', (req, res, next) => {
 router.post('/addBook', (req, res, next) => {
     let book = req.body;
     books.push(book);
-    res.redirect('/pa02/books');
+    res.redirect('books');
 });
 
 module.exports = router;

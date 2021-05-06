@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "title": "Harry Potter 1",
+        "description": "It's a book about Harry Potter, and his story, you have a good offer on this book",
+        "price": "4",
+        "img": "https://source.unsplash.com/400x400/?product1"
+    },
+    {
+        "id": 2,
+        "title": "Harry Potter",
+        "description": "It's a book about Harry Potter, and his story, you have a good offer on this book, it's the next part of the other book",
+        "price": "4",
+        "img": "https://source.unsplash.com/400x400/?product2"
+    },
+    {
+        "id": 0.7677087972139436,
+        "title": "Example",
+        "description": "Its a good product, you should buy it, it will give you a better life",
+        "price": "45",
+        "img": "https://source.unsplash.com/400x400/?product0.7677087972139436"
+    }
+]

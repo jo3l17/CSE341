@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../../includes/nav.ejs %>
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1><%= title %></h1>
+        <p>This is a node app for the CSE 341 Project</p>
+        <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <% if (hasProducts) { %>
+            <% products.forEach(product=> { %>
+                <div class="col-12 col-sm-6 col-md-4 mb-3">
+                    <div class="card">
+                        <img src="<%= product.img %>" class="card-img-top img-card-responsive" alt="<%= product.title %>">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <%= product.title %>
+                            </h5>
+                            <p class="card-text card-text-responsive">
+                                <%= product.description %>
+                            </p>
+                            <a href="/project/products/<%= product.id %>" class="btn btn-primary">Details</a>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                $ <%= product.price %>
+                            </li>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <h1>There is no products</h1>
+        <% } %>
+    </div>
+</div>
+
+</body>
+</html>

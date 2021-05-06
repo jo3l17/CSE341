@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../../includes/nav.ejs %>
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1>
+                <%= title %>
+            </h1>
+            <p>This is a node app for the CSE 341 Project</p>
+            <!-- <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started on Heroku with Node.js</a> -->
+            <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span
+                    class="glyphicon glyphicon-download"></span> Source on GitHub</a>
+        </div>
+    </div>
+    <div class="container">
+        <form action="/project/add-product" method="POST">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" min="0" class="form-control" id="price" name="price" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+    </div>
+</body>
+
+</html>

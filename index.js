@@ -15,14 +15,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localhost:5000
+const routes = require('./routes/index');
 
 const app = express();
-
-// Route setup. You can implement more in the future!
-const pa01Routes = require('./routes/pa01');
-const pa02Routes = require('./routes/pa02');
-const pa03Routes = require('./routes/pa03'); 
-const pa04Routes = require('./routes/pa04'); 
 
 app.use(express.static(path.join(__dirname, 'public')))
    .set('views', path.join(__dirname, 'views'))
@@ -33,16 +28,5 @@ app.use(express.static(path.join(__dirname, 'public')))
    //.engine('hbs', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout', extname: 'hbs'})) // For handlebars
    //.set('view engine', 'hbs')
    .use(bodyParser({extended: false})) // For parsing the body of a POST
-   .use('/pa01', pa01Routes)
-   .use('/pa02', pa02Routes) 
-   .use('/pa03', pa03Routes) 
-   .use('/pa04', pa04Routes)
-   .get('/', (req, res, next) => {
-     // This is the primary index, always handled last. 
-     res.render('pages/index', {title: 'Welcome to my CSE341 repo for Prove Assignments', path: '/'});
-    })
-   .use((req, res, next) => {
-     // 404 page
-     res.render('pages/404', {title: '404 - Page Not Found', path: req.url})
-   })
+   .use('/',routes)
    .listen(PORT, () => console.log(`Listening on ${ PORT }`));

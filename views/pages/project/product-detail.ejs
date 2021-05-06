@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../../includes/nav.ejs %>
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1><%= title %> Detail</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-md-6 mb-3">
+                <img src="<%= product.img %>" class="img-responsive" alt="<%= product.title %>">
+            </div>
+            <div class="col-12 col-md-6">
+                <h2><%= title %></h2>
+                <p>
+                    <b>Description:</b><br>
+                    <%= product.description %>
+                </p>
+                <p>
+                    <b>Price: <%= product.price %></b>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
