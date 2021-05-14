@@ -25,6 +25,10 @@
                 <p>
                     <b>Price: <%= product.price %></b>
                 </p>
+                <form action="/project/cart" method="post">
+                    <input type="hidden" value="<%= product.id %>" name="productId">
+                    <button class="btn btn-primary" type="submit">Add to Cart</button>
+                </form>
             </div>
         </div>
     </div>

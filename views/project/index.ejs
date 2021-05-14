@@ -9,8 +9,9 @@
 <div class="jumbotron text-center">
     <div class="container">
         <h1><%= title %></h1>
-        <p>This is a node app for the CSE 341 Project</p>
-        <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
+        <p>Shopping e-commerce app</p>
+        <a class="nav-link white" href="/project/cart">Cart</a>
+        <!-- <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a> -->
     </div>
 </div>
 <div class="container">
@@ -28,6 +29,10 @@
                                 <%= product.description %>
                             </p>
                             <a href="/project/products/<%= product.id %>" class="btn btn-primary">Details</a>
+                            <form class="d-inline" action="/project/cart" method="post">
+                                <input type="hidden" value="<%= product.id %>" name="productId">
+                                <button class="btn btn-primary" type="submit">Add to Cart</button>
+                            </form>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">

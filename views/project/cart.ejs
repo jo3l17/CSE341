@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+<div class="jumbotron text-center">
+    <div class="container">
+        <h1><%= title %></h1>
+        <p>Cart of products</p>
+        <!-- <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a> -->
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <% if (hasProducts) { %>
+            <% products.forEach(product=> { %>
+                <div class="col-12 px-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-12 ">
+                                    <h3>
+                                        <%= product.productId.title %>
+                                    </h3>
+                                    <p>
+                                        <%= product.productId.description %>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <h4>
+                                        Quantity: <%= product.quantity %>
+                                    </h4>
+                                </div>
+                                <div class="col-md-4 col-12 d-flex align-items-center justify-content-center">
+                                    <form action="/project/cart-delete-item" method="post">
+                                        <input type="hidden" name="productId" value="<%= product.productId._id %>">
+                                        <button class="btn btn-primary m-auto">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <h1>There is no products in the Cart</h1>
+        <% } %>
+    </div>
+</div>
+
+</body>
+</html>

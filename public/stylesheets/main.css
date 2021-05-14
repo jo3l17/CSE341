@@ -76,3 +76,10 @@
     height: 600px;
   }
 }
+
+.white{
+  color: white;
+}
+.white:hover{
+  color: grey;
+}
