@@ -12,7 +12,7 @@ exports.postAddProduct = (req, res, next) => {
     const { title, img, price, description } = req.body;
     const product = new Product({
         title: title,
-        img: img || "https://source.unsplash.com/400x400/?product+" + title.split(' ').join('+'),
+        img: img || "https://source.unsplash.com/featured/?" + title.split(' ').join('%20'),
         price: price,
         description: description,
         userId: req.user
@@ -56,7 +56,7 @@ exports.postEditProduct = (req, res, next) => {
     const prodId = req.body.productId;
     const updatedTitle = req.body.title;
     const updatedPrice = req.body.price;
-    const updatedImageUrl = req.body.imageUrl;
+    const updatedImageUrl = req.body.img;
     const updatedDesc = req.body.description;
 
     Product.findById(prodId).then(product => {
@@ -68,7 +68,7 @@ exports.postEditProduct = (req, res, next) => {
     })
         .then(result => {
             console.log('UPDATED PRODUCT!');
-            res.redirect('/admin/products');
+            res.redirect('/project/admin/products');
         })
         .catch(err => console.log(err));
 };
