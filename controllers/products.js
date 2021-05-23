@@ -82,7 +82,7 @@ exports.postOrder = (req, res, next) => {
             return req.user.clearCart();
         })
         .then(() => {
-            res.redirect('/orders');
+            res.redirect('/project/orders');
         })
         .catch(err => console.log(err));
 }
