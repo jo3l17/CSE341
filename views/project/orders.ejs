@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ./includes/header.ejs %>
+</head>
+
+<body>
+    <% include ./includes/nav.ejs %>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1>
+                    <%= title %>
+                </h1>
+                <p>Cart of products</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <% if (orders.length <=0) { %>
+                    <h1>Nothing there!</h1>
+                    <% } else { %>
+                        <ul class="orders">
+                            <% orders.forEach(order=> { %>
+                                <li class="card my-3 p-4">
+                                    <h4 class="m-0">Order - # <%= order._id %>
+                                    </h4>
+                                    <hr class="my-2">
+                                    <ul class="orders__products">
+                                        <% order.products.forEach(p=> { %>
+                                            <li class="orders__products-item">
+                                                <%= p.product.title %> (<%= p.quantity %>)
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+            </div>
+        </div>
+
+</body>
+
+</html>

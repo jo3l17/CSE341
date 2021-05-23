@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img class="logo" src="/images/BYUI-logo.png" width="30" height="24" alt="BYU Idaho logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link <%= path === '/' ? 'active' : ''%>" href="/project/products">
+                        <i class="fas fa-store"></i> Shop</a>
+                </li>
+                <% if (isAuthenticated) { %>
+                <li class="nav-item">
+                    <a class="nav-link <%= path === '/cart' ? 'active' : ''%>" href="/project/cart"><i
+                            class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= path === '/orders' ? 'active' : ''%>" href="/project/orders"><i
+                            class="fas fa-clipboard-list"></i> Orders</a>
+                </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/add-product' ? 'active' : ''%>"
+                            href="/project/admin/add-product"><i class="fas fa-plus"></i> Add product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/admin/products' ? 'active' : ''%>"
+                            href="/project/admin/products"><i class="fas fa-user-shield"></i> Admin products</a>
+                    </li>
+                <% } %>
+            </ul>
+            <% if (!isAuthenticated) { %>
+                <span>
+                    <a class="nav-link link-white <%= path === '/login' ? 'active' : ''%>"
+                        href="/project/login"><i class="fas fa-user"></i> Login</a>
+                </span>
+                <span>
+                    <a class="nav-link link-white <%= path === '/signup' ? 'active' : ''%>"
+                        href="/project/signup"><i class="fas fa-user"></i> Signup</a>
+                </span>
+            <% } else { %>
+                <form action="/project/logout" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button class="nav-link link-white" type="submit" ><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
+            <% } %>
+        </div>
+    </div>
+</nav>

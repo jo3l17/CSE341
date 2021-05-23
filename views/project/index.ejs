@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ../includes/header.ejs %>
+    <% include ./includes/header.ejs %>
 </head>
 
 <body>
-    <% include ../includes/nav.ejs %>
+    <% include ./includes/nav.ejs %>
 <div class="jumbotron text-center">
     <div class="container">
         <h1><%= title %></h1>
         <p>Shopping e-commerce app</p>
-        <a class="nav-link white" href="/project/cart">Cart</a>
         <!-- <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a> -->
     </div>
 </div>
@@ -29,10 +28,13 @@
                                 <%= product.description %>
                             </p>
                             <a href="/project/products/<%= product.id %>" class="btn btn-primary">Details</a>
-                            <form class="d-inline" action="/project/cart" method="post">
-                                <input type="hidden" value="<%= product.id %>" name="productId">
-                                <button class="btn btn-primary" type="submit">Add to Cart</button>
-                            </form>
+                            <% if (isAuthenticated) { %>
+                                <form class="d-inline" action="/project/cart" method="post">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="hidden" value="<%= product.id %>" name="productId">
+                                    <button class="btn btn-primary" type="submit">Add to Cart</button>
+                                </form>
+                            <% } %>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">

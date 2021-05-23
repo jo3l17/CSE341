@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <% include ../includes/header.ejs %>
+    <% include ./includes/header.ejs %>
 </head>
 
 <body>
-    <% include ../includes/nav.ejs %>
+    <% include ./includes/nav.ejs %>
     <div class="jumbotron text-center">
         <div class="container">
             <h1><%= title %> Detail</h1>
@@ -25,10 +25,13 @@
                 <p>
                     <b>Price: <%= product.price %></b>
                 </p>
-                <form action="/project/cart" method="post">
+                <% if (isAuthenticated) { %>
+                <form action="/project/cart" method="POST">
                     <input type="hidden" value="<%= product.id %>" name="productId">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="btn btn-primary" type="submit">Add to Cart</button>
                 </form>
+                <% } %>
             </div>
         </div>
     </div>

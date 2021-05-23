@@ -19,9 +19,19 @@ const routes = require('./routes/index');
 const mongoose = require('mongoose');
 const User = require('./models/user');
 const cors = require('cors');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 
-
+const MONGODB_URI = "mongodb+srv://jo3l17:953945798Yo@@cse341cluster.jfrzp.mongodb.net/shop?retryWrites=true&w=majority";
+0
 const app = express();
+
+const store = new MongoDBStore({
+   uri: MONGODB_URI,
+   collection: 'sessions'
+})
+const csrfProtection = csrf();
 
 const corsOptions = {
    origin: "https://cse341-prove.herokuapp.com/",
@@ -39,24 +49,38 @@ const options = {
 
 const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jo3l17:953945798Yo@@cse341cluster.jfrzp.mongodb.net/shop?retryWrites=true&w=majority";
 
-app.use((req, res, next) => {
-   User.findById('609dfb69a1555e4654f04ffe')
-      .then(user => {
-         // console.log(user);
-         req.user = user;
-         next();
-      }).catch(err => console.log(err));
-})
 
 app.use(express.static(path.join(__dirname, 'public')))
    .set('views', path.join(__dirname, 'views'))
    .set('view engine', 'ejs')
+   .use(bodyParser({ extended: false })) // For parsing the body of a POST
+   .use(session({
+      secret: 'my secret',
+      resave: false,
+      saveUninitialized: false,
+      store
+   }));
+app.use(csrfProtection);
+app.use((req, res, next) => {
+      if (!req.session.user) {
+         return next();
+      }
+      User.findById(req.session.user._id)
+         .then(user => {
+            req.user = user;
+            next();
+         }).catch(err => console.log(err));
+   })
+   .use((req, res, next) => {
+      res.locals.isAuthenticated = req.session.isLoggedIn;
+      res.locals.csrfToken = req.csrfToken();
+      next();
+   })
    // For view engine as Pug
    //.set('view engine', 'pug') // For view engine as PUG. 
    // For view engine as hbs (Handlebars)
    //.engine('hbs', expressHbs({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout', extname: 'hbs'})) // For handlebars
    //.set('view engine', 'hbs')
-   .use(bodyParser({ extended: false })) // For parsing the body of a POST
    .use('/', routes)
 // .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
@@ -67,18 +91,18 @@ mongoose
       MONGODB_URL, options
    )
    .then(result => {
-      User.findOne().then(user => {
-         if (!user) {
-            const user = new User({
-               name: 'Joel',
-               email: 'johan_17@byui.edu',
-               cart: {
-                  items: []
-               }
-            });
-            user.save();
-         }
-      })
+      // User.findOne().then(user => {
+      //    if (!user) {
+      //       const user = new User({
+      //          name: 'Joel',
+      //          email: 'johan_17@byui.edu',
+      //          cart: {
+      //             items: []
+      //          }
+      //       });
+      //       user.save();
+      //    }
+      // })
       console.log('Mongoose Connected!!');
       app.listen(PORT);
    })

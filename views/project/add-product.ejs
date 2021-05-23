@@ -2,20 +2,16 @@
 <html>
 
 <head>
-    <% include ../includes/header.ejs %>
+    <% include ./includes/header.ejs %>
 </head>
 
 <body>
-    <% include ../includes/nav.ejs %>
+    <% include ./includes/nav.ejs %>
     <div class="jumbotron text-center">
         <div class="container">
             <h1>
                 <%= title %>
             </h1>
-            <p>This is a node app for the CSE 341 Project</p>
-            <!-- <a type="button" class="btn btn-lg btn-default" href="https://devcenter.heroku.com/articles/getting-started-with-nodejs"><span class="glyphicon glyphicon-flash"></span> Getting Started on Heroku with Node.js</a> -->
-            <a type="button" class="btn btn-lg btn-primary" href="https://github.com/jo3l17/CSE341"><span
-                    class="glyphicon glyphicon-download"></span> Source on GitHub</a>
         </div>
     </div>
     <div class="container">
@@ -36,6 +32,7 @@
                 <label for="description" class="form-label">Description</label>
                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
             </div>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button type="submit" class="btn btn-primary">Add Product</button>
         </form>
     </div>

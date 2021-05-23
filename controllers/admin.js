@@ -4,7 +4,7 @@ exports.getAddProduct = (req, res, next) => {
     res.render('project/admin/edit-product', {
         editing: false,
         title: 'Add Product',
-        path: '/add-product',
+        path: '/add-product'
     });
 }
 
@@ -47,7 +47,7 @@ exports.getProducts = (req, res, next) => {
                 title: 'Admin products',
                 products,
                 hasProducts: products.length > 0,
-                path: '/'
+                path: '/admin/products'
             });
         });
 }

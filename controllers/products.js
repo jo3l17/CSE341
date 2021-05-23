@@ -1,4 +1,5 @@
 const Product = require('../models/products');
+const Order = require('../models/order');
 
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
@@ -6,7 +7,7 @@ exports.getProduct = (req, res, next) => {
         res.render('project/product-detail', {
             title: product.title,
             product,
-            path: '/product'
+            path: '/product',
         });
     });
 }
@@ -56,6 +57,44 @@ exports.postCartDeleteProduct = (req, res, next) => {
         .removeFromCart(prodId)
         .then(result => {
             res.redirect('/project/cart');
+        })
+        .catch(err => console.log(err));
+};
+
+exports.postOrder = (req, res, next) => {
+    req.user
+        .populate('cart.items.productId')
+        .execPopulate()
+        .then(user => {
+            const products = user.cart.items.map(i => {
+                return { quantity: i.quantity, product: { ...i.productId._doc } }
+            });
+            const order = new Order({
+                user: {
+                    email: req.user.email,
+                    userId: req.user
+                },
+                products
+            });
+            order.save();
+        })
+        .then(result => {
+            return req.user.clearCart();
+        })
+        .then(() => {
+            res.redirect('/orders');
+        })
+        .catch(err => console.log(err));
+}
+
+exports.getOrders = (req, res, next) => {
+    Order.find({ "user.userId": req.user._id })
+        .then(orders => {
+            res.render('project/orders', {
+                title: 'Orders',
+                path: '/orders',
+                orders
+            });
         })
         .catch(err => console.log(err));
 };
