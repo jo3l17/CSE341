@@ -1,5 +1,13 @@
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
+
+const transporter = nodemailer.createTransport(sendgridTransport({
+    auth: {
+        api_key: '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'
+    }
+}));
 
 exports.getLogin = (req, res, next) => {
     res.render('project/auth/login', {
@@ -65,7 +73,14 @@ exports.postSignup = (req, res, next) => {
                     return user.save();
                 })
                 .then(result => {
-                    res.redirect('/project/login')
+                    res.redirect('/project/login');
+                    return transporter.sendMail({
+                        to: email,
+                        from: 'joelvaldezangeles@gmail.com',
+                        subject: 'Signup Succeded',
+                        html: '<h1>You successfully signed up!</h1>' +
+                            '<p>go to <a href="https://cse341-prove.herokuapp.com/project/login">login</a> to access the page'
+                    })
                 });
         })
         .catch(err => {
