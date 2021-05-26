@@ -16,18 +16,29 @@
     </div>
     <div class="container">
         <% include ../includes/errorMessage.ejs %>
-        <form action="/project/signup" class="row" method="POST" novalidate>
+        <form action="/project/signup" class="row" method="POST">
             <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
                 <label for="email" class="form-label">Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+                <input
+                type="text"
+                class="form-control <%= validationErrors.find(e=>e.param === 'email') ? 'is-invalid' : ''%>"
+                id="email"
+                value="<%= oldInput.email %>"
+                name="email"
+                placeholder="name@example.com"
+                required>
             </div>
             <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password"
+                class="form-control <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
+                id="password" name="password" value="<%= oldInput.password %>" pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
             </div>
             <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+                <label for="confirmPassword"
+                class="form-label <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
+                >Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="<%= oldInput.confirmPassword %>" pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
             </div>
             <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
             <button type="submit" class="btn btn-primary mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">Signup</button>

@@ -1,6 +1,6 @@
 const routes = require('express').Router();
 const proveAssignments = require('./proveRoutes');
-const projectRoutes = require('./project');
+const projectRoutes = require('../project');
 
 routes
     .use('/proveAssignments', proveAssignments)

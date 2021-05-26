@@ -5,12 +5,15 @@ const path = require('path');
 const PORT = process.env.PORT || 5000
 const routes = require('./routes/index');
 const mongoose = require('mongoose');
-const User = require('./models/user');
+const User = require('./project/models/user');
 const cors = require('cors');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const flash = require('connect-flash');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const MONGODB_URI = "mongodb+srv://jo3l17:953945798Yo@@cse341cluster.jfrzp.mongodb.net/shop?retryWrites=true&w=majority";
 

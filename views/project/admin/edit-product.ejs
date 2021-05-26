@@ -15,6 +15,7 @@
         </div>
     </div>
     <div class="container">
+        <% include ../includes/errorMessage.ejs %>
         <form action="/project/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -34,7 +35,7 @@
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <% if (editing) { %>
-                <input type="hidden" value="<%= product._id %>" name="productId">
+                <input type="hidden" value="<%= product._id || product.productId %>" name="productId">
             <% } %>
             <button type="submit" class="btn btn-primary"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
         </form>

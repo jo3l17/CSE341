@@ -1,15 +1,29 @@
 const Product = require('../models/products');
+const { validationResult } = require('express-validator/check');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('project/admin/edit-product', {
         editing: false,
+        hasError: false,
         title: 'Add Product',
-        path: '/add-product'
+        path: '/add-product',
+        errorMessage: ''
     });
 }
 
 exports.postAddProduct = (req, res, next) => {
     const { title, img, price, description } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('project/admin/edit-product', {
+            editing: false,
+            title: 'Add Product',
+            path: '/add-product',
+            hasError: true,
+            product: req.body,
+            errorMessage: errors.array()[0].msg
+        });
+    }
     const product = new Product({
         title: title,
         img: img || "https://source.unsplash.com/featured/?" + title.split(' ').join('%20'),
@@ -24,18 +38,6 @@ exports.postAddProduct = (req, res, next) => {
         }).catch(err => {
             console.log(err);
         })
-}
-
-exports.getEditProduct = (req, res, next) => {
-    const prodId = req.params.productId;
-    Product.findById(prodId).then(product => {
-        res.render('project/admin/edit-product', {
-            title: 'Edit ' + product.title,
-            editing: true,
-            product,
-            path: '/edit-product'
-        });
-    });
 }
 
 exports.getProducts = (req, res, next) => {
@@ -54,12 +56,38 @@ exports.getProducts = (req, res, next) => {
         });
 }
 
+exports.getEditProduct = (req, res, next) => {
+    const prodId = req.params.productId;
+    Product.findById(prodId).then(product => {
+        res.render('project/admin/edit-product', {
+            title: 'Edit ' + product.title,
+            editing: true,
+            product,
+            hasError: false,
+            path: '/edit-product',
+            errorMessage: ''
+        });
+    });
+}
+
 exports.postEditProduct = (req, res, next) => {
     const prodId = req.body.productId;
     const updatedTitle = req.body.title;
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.img;
     const updatedDesc = req.body.description;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('project/admin/edit-product', {
+            editing: true,
+            title: 'Edit ' + req.body.title,
+            path: '/add-product',
+            hasError: true,
+            product: req.body,
+            errorMessage: errors.array()[0].msg
+        });
+    }
 
     Product.findById(prodId)
         .then(product => {
@@ -80,7 +108,7 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.deleteOne({id: prodId, userId: req.user._id})
+    Product.deleteOne({ id: prodId, userId: req.user._id })
         .then(() => {
             console.log('DESTROYED PRODUCT');
             res.redirect('/project/admin/products');

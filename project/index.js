@@ -1,10 +1,10 @@
 const projectRoutes = require('express').Router();
-const errorController = require('../../controllers/error');
-const productsController = require('../../controllers/products');
+const errorController = require('./controllers/error');
+const productsController = require('./controllers/products');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
-const isAuth = require('../../middleware/is-auth');
+const isAuth = require('./middleware/is-auth');
 
 projectRoutes
     .get('/', productsController.getProducts)
