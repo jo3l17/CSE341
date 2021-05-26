@@ -75,7 +75,7 @@ exports.getSignup = (req, res, next) => {
             password: "",
             confirmPassword: ""
         },
-        ValidationErrors: []
+        validationErrors: []
     });
 }
 
