@@ -128,14 +128,28 @@ exports.postLogout = (req, res, next) => {
 
 exports.getReset = (req, res, next) => {
     res.render('project/auth/reset', {
-        editing: false,
         title: 'Reset',
         path: '/reset',
+        oldInput: {
+            email: "",
+        },
+        validationErrors: []
     });
 }
 
 exports.postReset = (req, res, next) => {
     const { email } = req.body;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.render('project/auth/reset', {
+            title: 'Reset',
+            path: '/reset',
+            oldInput: req.body,
+            errorMessage: errors.array()[0].msg,
+            validationErrors: errors.array()
+        });
+    }
     crypto.randomBytes(32, (err, buffer) => {
         if (err) {
             console.log(err);
@@ -158,10 +172,10 @@ exports.postReset = (req, res, next) => {
                 return transporter.sendMail({
                     to: email,
                     from: 'joelvaldezangeles@gmail.com',
-                    subject: 'Signup Succeded',
-                    html: `<h1>You successfully signed up!</h1><hr>
+                    subject: 'Password reset',
+                    html: `<h1>Password reset</h1><hr>
                         <p>You requested a password reset</p>
-                        <p>go to <a href="http://localhost:5000/project/reset/${token}">reset</a> to reset your password`
+                        <p>go to <a href="https://cse341-prove.herokuapp.com/project/reset/${token}">reset</a> to reset your password`
                 })
             }).then(result => {
                 console.log(result)
@@ -175,11 +189,14 @@ exports.getNewPassword = (req, res, next) => {
     User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
         .then(user => {
             res.render('project/auth/new-password', {
-                editing: false,
                 title: 'New Password',
                 path: '/new-password',
                 userId: user._id.toString(),
-                passwordToken: token
+                passwordToken: token,
+                oldInput: {
+                    password: "",
+                },
+                validationErrors: []
             });
         })
         .catch(err => errorHandler.showError(err, next));
@@ -189,6 +206,19 @@ exports.postNewPassword = (req, res, next) => {
     const { password, userId, passwordToken } = req.body;
     const newPassword = password;
     let resetUser;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.render('project/auth/new-password', {
+            title: 'New Password',
+            path: '/new-password',
+            userId: user._id.toString(),
+            passwordToken: token,
+            oldInput: req.body,
+            errorMessage: errors.array()[0].msg,
+            validationErrors: errors.array()
+        });
+    }
     User.findOne({
         resetToken: passwordToken,
         resetTokenExpiration: { $gt: Date.now() },

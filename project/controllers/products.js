@@ -1,5 +1,6 @@
 const Product = require('../models/products');
 const Order = require('../models/order');
+const errorHandler = require('../middleware/errorHandling');
 
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;

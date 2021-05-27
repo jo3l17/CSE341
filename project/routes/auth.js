@@ -63,10 +63,24 @@ router.post('/logout', authController.postLogout);
 
 router.get('/reset', authController.getReset);
 
-router.post('/reset', authController.postReset);
+router.post('/reset',
+    check('email', 'Please enter a valid email.')
+        .isEmail()
+        .normalizeEmail(),
+    authController.postReset);
 
 router.get('/reset/:token', authController.getNewPassword);
 
-router.post('/new-password', authController.postNewPassword);
+router.post('/new-password',
+    body('password')
+        .custom((value, { req }) => {
+            var pattern = /(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+            if (!value.match(pattern)) {
+                throw new Error('Password must be 8 characters long, and numbers and letters, at least 1 uppercase letter, and one special character')
+            }
+            return true;
+        })
+        .trim(),
+    authController.postNewPassword);
 
 module.exports = router;
