@@ -28,7 +28,7 @@
                                 <%= product.description %>
                             </p>
                             <a href="/project/products/<%= product.id %>" class="btn btn-primary">Details</a>
-                            <% if (isAuthenticated) { %>
+                            <% if (isAuthenticated && product.stock > 0) { %>
                                 <form class="d-inline" action="/project/cart" method="post">
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <input type="hidden" value="<%= product.id %>" name="productId">
@@ -37,8 +37,13 @@
                             <% } %>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                $ <%= product.price %>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>
+                                    $ <%= product.price %>
+                                </span>
+                                <span>
+                                    Stock: <%= product.stock %>
+                                </span>
                             </li>
                     </div>
                 </div>

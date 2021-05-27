@@ -59,9 +59,15 @@ app.use(cors(corsOptions))
       }
       User.findById(req.session.user._id)
          .then(user => {
+            if(!user){
+               return next();
+            }
             req.user = user;
             next();
-         }).catch(err => console.log(err));
+         }).catch(err => {
+            throw new Error(err);
+            // console.log(err);
+         });
    })
    .use((req, res, next) => {
       res.locals.isAuthenticated = req.session.isLoggedIn;

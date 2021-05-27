@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const { validationResult } = require('express-validator/check');
 const dotenv = require('dotenv');
 dotenv.config();
+const errorHandler = require('../middleware/errorHandling');
 
 const renderLogin = (res, errorMessage = '', oldInput = {}, validationErrors = []) => {
     return res.status(422).render('project/auth/login', {
@@ -61,7 +62,8 @@ exports.postLogin = (req, res, next) => {
                     console.log(err);
                     return renderLogin(res,'There was an error, check log.', req.body)
                 })
-        }).catch(err => console.log(err));
+        })
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getSignup = (req, res, next) => {
@@ -113,9 +115,7 @@ exports.postSignup = (req, res, next) => {
                     '<p>go to <a href="https://cse341-prove.herokuapp.com/project/login">login</a> to access the page'
             })
         })
-        .catch(err => {
-            console.log(err);
-        })
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.postLogout = (req, res, next) => {
@@ -123,6 +123,7 @@ exports.postLogout = (req, res, next) => {
         console.log(err);
         res.redirect('/project');
     })
+    .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getReset = (req, res, next) => {
@@ -165,9 +166,7 @@ exports.postReset = (req, res, next) => {
             }).then(result => {
                 console.log(result)
             })
-            .catch(err => {
-                console.log(err)
-            })
+            .catch(err => errorHandler.showError(err, next));
     })
 }
 
@@ -183,9 +182,7 @@ exports.getNewPassword = (req, res, next) => {
                 passwordToken: token
             });
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.postNewPassword = (req, res, next) => {
@@ -214,7 +211,5 @@ exports.postNewPassword = (req, res, next) => {
         .then(result => {
             res.redirect('/project/login');
         })
-        .catch(err => {
-            console.log(err);
-        });
+        .catch(err => errorHandler.showError(err, next));
 }

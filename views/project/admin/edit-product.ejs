@@ -16,25 +16,29 @@
     </div>
     <div class="container">
         <% include ../includes/errorMessage.ejs %>
-        <form action="/project/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST">
+        <form action="/project/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" class="col-md-6 col-12 offset-md-3" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" name="title" value="<% if (editing) { %><%= product.title %><% } %>" placeholder="name@example.com">
+                <input required type="text" class="form-control" id="title" name="title" value="<% if (editing || validationErrors!='') { %><%= product.title %><% } %>" placeholder="name@example.com">
             </div>
             <div class="mb-3">
                 <label for="img" class="form-label">Image url</label>
-                <input type="text" class="form-control" id="img" name="img" value="<% if (editing) { %><%= product.img %><% } %>" placeholder="placehold.it/300x300">
+                <input required type="text" class="form-control" id="img" name="img" value="<% if (editing || validationErrors!='') { %><%= product.img %><% } %>" placeholder="placehold.it/300x300">
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">Price</label>
-                <input type="number" min="0" step=".01" class="form-control" value="<% if (editing) { %><%= product.price %><% } %>" id="price" name="price" placeholder="name@example.com">
+                <input required type="number" min="0" step=".01" class="form-control" value="<% if (editing || validationErrors!='') { %><%= product.price %><% } %>" id="price" name="price" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="stock" class="form-label">Stock</label>
+                <input required type="number" min="0" class="form-control" value="<% if (editing || validationErrors!='') { %><%= product.stock %><% } %>" id="stock" name="stock" placeholder="name@example.com">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3"><% if (editing) { %><%= product.description %><% } %></textarea>
+                <textarea required class="form-control" id="description" name="description" rows="3"><% if (editing || validationErrors!='') { %><%= product.description %><% } %></textarea>
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <% if (editing) { %>
+            <% if (editing && (product._id || product.productId)) { %>
                 <input type="hidden" value="<%= product._id || product.productId %>" name="productId">
             <% } %>
             <button type="submit" class="btn btn-primary"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>

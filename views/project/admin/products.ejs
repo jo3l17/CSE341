@@ -29,12 +29,41 @@
                                     <p class="card-text card-text-responsive">
                                         <%= product.description %>
                                     </p>
-                                    <a href="/project/admin/edit-product/<%= product.id %>" class="btn btn-primary">Edit</a>
-                                    <form class="d-inline" action="/project/admin/delete-product" method="post">
-                                        <input type="hidden" value="<%= product.id %>" name="productId">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button class="btn btn-primary" type="submit">Delete</button>
-                                    </form>
+                                    <div class="container">
+                                        <div class="row gx-5 gy-1">
+                                            <div class="col-4 col-sm-12 col-md-4 px-1">
+                                                <a href="/project/admin/edit-product/<%= product.id %>" class="btn btn-primary w-100">Edit</a>
+                                            </div>
+                                            <form class="col-4 col-sm-12 col-md-4 px-1" action="/project/admin/delete-product" method="post">
+                                                <input type="hidden" value="<%= product.id %>" name="productId">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <button class="btn btn-primary w-100" type="submit">Delete</button>
+                                            </form>
+                                            <div class="col-4 col-sm-12 col-md-4 px-1">
+                                                
+                                                <form action="/project/admin/stock" method="post">
+                                                <div class="input-group mb-3">
+                                                        <!-- <button class="btn btn-outline-secondary" type="button">-</button> -->
+                                                        <% if (product.stock>0) { %>
+                                                            <input class="btn btn-outline-secondary" type="submit" value="-"  name="modifyStock">
+                                                        <% } else { %>
+                                                            <input disabled class="btn btn-outline-secondary" type="submit" value="-"  name="modifyStock">
+                                                        <% } %>
+                                                        <!-- <input type="hidden" value="-1"> -->
+                                                    <!-- </form> -->
+                                                    <input type="hidden" value="<%= product.id %>" name="productId">
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <input value="<%= product.stock %>" readonly type="text" class="form-control" placeholder="" aria-label="Example text with two button addons">
+                                                    <!-- <form action="/project/admin/stock" method="post"> -->
+                                                        <!-- <input type="hidden" value="1"> -->
+                                                        <input class="btn btn-outline-secondary" type="submit" value="+" name="modifyStock">
+                                                        <!-- <button class="btn btn-outline-secondary" type="button">+</button> -->
+                                                    
+                                                </div>
+                                            </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">

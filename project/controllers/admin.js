@@ -1,5 +1,6 @@
 const Product = require('../models/products');
 const { validationResult } = require('express-validator/check');
+const errorHandler = require('../middleware/errorHandling');
 
 exports.getAddProduct = (req, res, next) => {
     res.render('project/admin/edit-product', {
@@ -7,12 +8,13 @@ exports.getAddProduct = (req, res, next) => {
         hasError: false,
         title: 'Add Product',
         path: '/add-product',
-        errorMessage: ''
+        errorMessage: '',
+        validationErrors: []
     });
 }
 
 exports.postAddProduct = (req, res, next) => {
-    const { title, img, price, description } = req.body;
+    const { title, img, price, description, stock } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).render('project/admin/edit-product', {
@@ -21,23 +23,24 @@ exports.postAddProduct = (req, res, next) => {
             path: '/add-product',
             hasError: true,
             product: req.body,
-            errorMessage: errors.array()[0].msg
+            errorMessage: errors.array()[0].msg,
+            validationErrors: errors.array()
         });
     }
     const product = new Product({
-        title: title,
+        title,
         img: img || "https://source.unsplash.com/featured/?" + title.split(' ').join('%20'),
-        price: price,
-        description: description,
-        userId: req.user
+        price,
+        description,
+        userId: req.user,
+        stock
     });
     product.save()
         .then(result => {
             console.log("Product Created!");
             res.redirect('/project');
-        }).catch(err => {
-            console.log(err);
         })
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getProducts = (req, res, next) => {
@@ -53,7 +56,8 @@ exports.getProducts = (req, res, next) => {
                 hasProducts: products.length > 0,
                 path: '/admin/products'
             });
-        });
+        })
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getEditProduct = (req, res, next) => {
@@ -65,9 +69,11 @@ exports.getEditProduct = (req, res, next) => {
             product,
             hasError: false,
             path: '/edit-product',
-            errorMessage: ''
+            errorMessage: '',
+            validationErrors: []
         });
-    });
+    })
+    .catch(err => errorHandler.showError(err, next));
 }
 
 exports.postEditProduct = (req, res, next) => {
@@ -76,6 +82,7 @@ exports.postEditProduct = (req, res, next) => {
     const updatedPrice = req.body.price;
     const updatedImageUrl = req.body.img;
     const updatedDesc = req.body.description;
+    const updatedStock = req.body.stock;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -85,7 +92,8 @@ exports.postEditProduct = (req, res, next) => {
             path: '/add-product',
             hasError: true,
             product: req.body,
-            errorMessage: errors.array()[0].msg
+            errorMessage: errors.array()[0].msg,
+            validationErrors: errors.array()
         });
     }
 
@@ -98,12 +106,13 @@ exports.postEditProduct = (req, res, next) => {
             product.price = updatedPrice;
             product.img = updatedImageUrl;
             product.description = updatedDesc;
+            product.stock = updatedStock;
             return product.save().then(result => {
                 console.log('UPDATED PRODUCT!');
                 res.redirect('/project/admin/products');
             })
         })
-        .catch(err => console.log(err));
+        .catch(err => errorHandler.showError(err, next));
 };
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -113,5 +122,25 @@ exports.postDeleteProduct = (req, res, next) => {
             console.log('DESTROYED PRODUCT');
             res.redirect('/project/admin/products');
         })
-        .catch(err => console.log(err));
+        .catch(err => errorHandler.showError(err, next));
 };
+
+exports.postStock = (req, res, next) => {
+    const { modifyStock, productId } = req.body;
+    Product.findById(productId)
+        .then(product => {
+            if (product.userId.toString() !== req.user._id.toString()) {
+                return res.redirect('/project');
+            }
+            if (modifyStock == '+') {
+                product.stock += 1;
+            } else if (product.stock > 0) {
+                product.stock -= 1;
+            }
+            return product.save().then(result => {
+                console.log('UPDATED STOCK!');
+                res.redirect('/project/admin/products');
+            })
+        })
+        .catch(err => errorHandler.showError(err, next));
+}
