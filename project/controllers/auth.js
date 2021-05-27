@@ -121,9 +121,8 @@ exports.postSignup = (req, res, next) => {
 exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
         console.log(err);
-        res.redirect('/project');
+        return res.redirect('/project');
     })
-    .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getReset = (req, res, next) => {
