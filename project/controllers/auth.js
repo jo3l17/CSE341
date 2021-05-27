@@ -14,7 +14,7 @@ const renderLogin = (res, errorMessage = '', oldInput = {}, validationErrors = [
         path: '/login',
         errorMessage,
         oldInput,
-        validationErrors
+        validationErrors,
     });
 }
 
@@ -25,6 +25,9 @@ const transporter = nodemailer.createTransport(sendgridTransport({
 }));
 
 exports.getLogin = (req, res, next) => {
+    if(req.session.isLoggedIn){
+        return res.redirect('/project');
+    }
     renderLogin(res);
 }
 

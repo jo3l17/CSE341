@@ -15,7 +15,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const MONGODB_URI = "mongodb+srv://jo3l17:953945798Yo@@cse341cluster.jfrzp.mongodb.net/shop?retryWrites=true&w=majority";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 
@@ -38,7 +38,7 @@ const options = {
    family: 4
 };
 
-const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jo3l17:953945798Yo@@cse341cluster.jfrzp.mongodb.net/shop?retryWrites=true&w=majority";
+const MONGODB_URL = process.env.MONGODB_URL || process.env.MONGODB_URI;
 
 app.use(cors(corsOptions))
    .use(express.static(path.join(__dirname, 'public')))

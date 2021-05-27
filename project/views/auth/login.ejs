@@ -25,16 +25,23 @@
                     id="email"
                     name="email"
                     value="<%= oldInput.email %>"
+                    title="Password should be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and a special sign."
                     placeholder="name@example.com">
                 </div>
                 <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password"
-                    class="form-control <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
-                    id="password"
-                    name="password"
-                    value="<%= oldInput.password %>"
-                    pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                    <div class="input-group">
+                        <input type="password"
+                        class="form-control <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
+                        id="password"
+                        name="password"
+                        value="<%= oldInput.password %>"
+                        pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" required>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="changePasswordVisibility()">
+                                <i id="password-eye" class="fas fa-eye d-none"></i>
+                                <i id="password-eye-slash" class="fas fa-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button type="submit"
@@ -43,5 +50,21 @@
             <a class="link-primary col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4" href="/project/reset">Reset Password</a>
         </div>
 </body>
+<script>
+    var seePassword = false
+    function changePasswordVisibility() {
+        document.getElementById('password').type = seePassword ? 'password' : 'text'
+        var eye = document.getElementById('password-eye');
+        var eye_slash = document.getElementById('password-eye-slash');
+        if (seePassword) {
+            eye.classList.add('d-none');
+            eye_slash.classList.remove('d-none');
+        } else {
+            eye.classList.remove('d-none');
+            eye_slash.classList.add('d-none');
+        }
+        seePassword = !seePassword;
+    }
+</script>
 
 </html>

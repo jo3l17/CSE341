@@ -21,6 +21,7 @@ router.post('/login',
             })
             .trim(),
         check('email', 'Please enter a valid email.')
+            .trim()
             .isEmail()
             .normalizeEmail()
     ],
@@ -30,6 +31,7 @@ router.post('/signup',
     [
         check('email', 'Please enter a valid email.')
             .isEmail()
+            .trim()
             .custom((value, { req }) => {
                 return User.findOne({ email: value })
                     .then(userDoc => {

@@ -11,7 +11,7 @@ exports.getProduct = (req, res, next) => {
             path: '/product',
         });
     })
-    .catch(err => errorHandler.showError(err, next));
+        .catch(err => errorHandler.showError(err, next));
 }
 
 exports.getProducts = (req, res, next) => {
@@ -54,11 +54,19 @@ exports.getCart = (req, res, next) => {
         .execPopulate()
         .then(user => {
             const products = user.cart.items;
+            console.log(products);
+            let total = 0;
+            products.forEach(product => {
+                price = product.productId.price * product.quantity;
+                total += price;
+            });
+            total = total.toFixed(2);
             res.render('cart', {
                 title: 'Cart',
                 products,
                 path: '/cart',
-                hasProducts: products.length > 0
+                hasProducts: products.length > 0,
+                total
             });
         })
         .catch(err => errorHandler.showError(err, next));
@@ -84,6 +92,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
+    const { total } = req.body;
     req.user
         .populate('cart.items.productId')
         .execPopulate()
@@ -96,7 +105,8 @@ exports.postOrder = (req, res, next) => {
                     email: req.user.email,
                     userId: req.user
                 },
-                products
+                products,
+                total
             });
             order.save();
         })

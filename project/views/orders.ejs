@@ -38,7 +38,10 @@
                                                     <li class="orders__products-item">
                                                         <%= p.product.title %> (<%= p.quantity %>)
                                                     </li>
-                                                    <% }); %>
+                                                <% }); %>
+                                                <li>
+                                                    Total: <b><%= order.total %></b>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
