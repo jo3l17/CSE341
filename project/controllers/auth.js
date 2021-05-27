@@ -9,7 +9,7 @@ dotenv.config();
 const errorHandler = require('../middleware/errorHandling');
 
 const renderLogin = (res, errorMessage = '', oldInput = {}, validationErrors = []) => {
-    return res.status(422).render('project/auth/login', {
+    return res.status(422).render('auth/login', {
         title: 'Login',
         path: '/login',
         errorMessage,
@@ -33,7 +33,7 @@ exports.postLogin = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.status(422).render('project/auth/login', {
+        return res.status(422).render('auth/login', {
             title: 'Login',
             path: '/login',
             errorMessage: errors.array()[0].msg,
@@ -67,7 +67,7 @@ exports.postLogin = (req, res, next) => {
 }
 
 exports.getSignup = (req, res, next) => {
-    res.render('project/auth/signup', {
+    res.render('auth/signup', {
         editing: false,
         title: 'Signup',
         path: '/signup',
@@ -86,7 +86,7 @@ exports.postSignup = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.status(422).render('project/auth/signup', {
+        return res.status(422).render('auth/signup', {
             editing: false,
             title: 'Signup',
             path: '/signup',
@@ -126,7 +126,7 @@ exports.postLogout = (req, res, next) => {
 }
 
 exports.getReset = (req, res, next) => {
-    res.render('project/auth/reset', {
+    res.render('auth/reset', {
         title: 'Reset',
         path: '/reset',
         oldInput: {
@@ -141,7 +141,7 @@ exports.postReset = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.render('project/auth/reset', {
+        return res.render('auth/reset', {
             title: 'Reset',
             path: '/reset',
             oldInput: req.body,
@@ -187,7 +187,7 @@ exports.getNewPassword = (req, res, next) => {
     const token = req.params.token;
     User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
         .then(user => {
-            res.render('project/auth/new-password', {
+            res.render('auth/new-password', {
                 title: 'New Password',
                 path: '/new-password',
                 userId: user._id.toString(),
@@ -208,7 +208,7 @@ exports.postNewPassword = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.render('project/auth/new-password', {
+        return res.render('auth/new-password', {
             title: 'New Password',
             path: '/new-password',
             userId: user._id.toString(),

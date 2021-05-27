@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator/check');
 const errorHandler = require('../middleware/errorHandling');
 
 exports.getAddProduct = (req, res, next) => {
-    res.render('project/admin/edit-product', {
+    res.render('admin/edit-product', {
         editing: false,
         hasError: false,
         title: 'Add Product',
@@ -17,7 +17,7 @@ exports.postAddProduct = (req, res, next) => {
     const { title, img, price, description, stock } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).render('project/admin/edit-product', {
+        return res.status(422).render('admin/edit-product', {
             editing: false,
             title: 'Add Product',
             path: '/add-product',
@@ -50,7 +50,7 @@ exports.getProducts = (req, res, next) => {
         // .select('title price -_id')
         // .populate('userId', 'name')
         .then(products => {
-            res.render('project/admin/products', {
+            res.render('admin/products', {
                 title: 'Admin products',
                 products,
                 hasProducts: products.length > 0,
@@ -63,7 +63,7 @@ exports.getProducts = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId).then(product => {
-        res.render('project/admin/edit-product', {
+        res.render('admin/edit-product', {
             title: 'Edit ' + product.title,
             editing: true,
             product,
@@ -86,7 +86,7 @@ exports.postEditProduct = (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).render('project/admin/edit-product', {
+        return res.status(422).render('admin/edit-product', {
             editing: true,
             title: 'Edit ' + req.body.title,
             path: '/add-product',

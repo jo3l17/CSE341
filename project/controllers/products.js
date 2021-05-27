@@ -5,7 +5,7 @@ const errorHandler = require('../middleware/errorHandling');
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
     Product.findById(prodId).then(product => {
-        res.render('project/product-detail', {
+        res.render('product-detail', {
             title: product.title,
             product,
             path: '/product',
@@ -17,7 +17,7 @@ exports.getProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
     Product.find()
         .then(products => {
-            res.render('project/index', {
+            res.render('index', {
                 title: 'Shop',
                 products,
                 hasProducts: products.length > 0,
@@ -54,7 +54,7 @@ exports.getCart = (req, res, next) => {
         .execPopulate()
         .then(user => {
             const products = user.cart.items;
-            res.render('project/cart', {
+            res.render('cart', {
                 title: 'Cart',
                 products,
                 path: '/cart',
@@ -112,7 +112,7 @@ exports.postOrder = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
     Order.find({ "user.userId": req.user._id })
         .then(orders => {
-            res.render('project/orders', {
+            res.render('orders', {
                 title: 'Orders',
                 path: '/orders',
                 orders

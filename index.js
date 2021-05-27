@@ -42,7 +42,7 @@ const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://jo3l17:953945798Yo
 
 app.use(cors(corsOptions))
    .use(express.static(path.join(__dirname, 'public')))
-   .set('views', path.join(__dirname, 'views'))
+   .set('views', [path.join(__dirname, 'views'),path.join(__dirname, 'project/views')])
    .set('view engine', 'ejs')
    .use(bodyParser({ extended: false })) // For parsing the body of a POST deprecated
    .use(session({
