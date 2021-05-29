@@ -119,6 +119,7 @@ exports.postSignup = (req, res, next) => {
                 from: 'joelvaldezangeles@gmail.com',
                 subject: 'Signup Succeded',
                 html: '<h1>You successfully signed up!</h1>' +
+                    isSeller?'<p>Welcome Seller</p>':''+
                     '<p>go to <a href="https://cse341-prove.herokuapp.com/project/login">login</a> to access the page'
             })
         })
