@@ -4,13 +4,15 @@ const errorHandler = require('../middleware/errorHandling');
 
 exports.getProduct = (req, res, next) => {
     const prodId = req.params.productId;
-    Product.findById(prodId).then(product => {
-        res.render('product-detail', {
-            title: product.title,
-            product,
-            path: '/product',
-        });
-    })
+    Product.findById(prodId)
+        .populate('userId')
+        .then(product => {
+            res.render('product-detail', {
+                title: product.title,
+                product,
+                path: '/product',
+            });
+        })
         .catch(err => errorHandler.showError(err, next));
 }
 

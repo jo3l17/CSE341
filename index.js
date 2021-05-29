@@ -71,6 +71,7 @@ app.use(cors(corsOptions))
    })
    .use((req, res, next) => {
       res.locals.isAuthenticated = req.session.isLoggedIn;
+      res.locals.isSeller = req.session.isSeller;
       res.locals.csrfToken = req.csrfToken();
       res.locals.errorMessage = req.flash('error');
       next();

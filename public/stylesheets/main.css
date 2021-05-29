@@ -1,7 +1,7 @@
 .jumbotron {
   padding-top: 80px;
   margin-bottom: 2rem;
-  background: #0065bd;
+  background: #011627;
   border-radius: 0.3rem;
   color: white;
   padding-bottom: 80px;
@@ -115,4 +115,12 @@ button.nav-link {
 
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
+}
+.btn-primary{
+  background-color: #022746;
+  border-color: #011627;
+}
+.btn-primary:hover{
+  background-color: #011627;
+  border-color: #011627;
 }

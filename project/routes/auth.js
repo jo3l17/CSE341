@@ -2,6 +2,7 @@ const express = require('express');
 const { check, body } = require('express-validator/check');
 const authController = require('../controllers/auth');
 const User = require('../models/user');
+const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
@@ -84,5 +85,38 @@ router.post('/new-password',
         })
         .trim(),
     authController.postNewPassword);
+
+router.get('/account', isAuth, authController.getAccount);
+
+router.post('/change-password', isAuth,
+    [
+        body('password')
+            .custom((value, { req }) => {
+                var pattern = /(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+                if (!value.match(pattern)) {
+                    throw new Error('Password must be 8 characters long, and numbers and letters, at least 1 uppercase letter, and one special character')
+                }
+                return true;
+            })
+            .trim(),
+        body('newPassword')
+            .custom((value, { req }) => {
+                var pattern = /(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/;
+                if (!value.match(pattern)) {
+                    throw new Error('Password must be 8 characters long, and numbers and letters, at least 1 uppercase letter, and one special character')
+                }
+                return true;
+            })
+            .trim(),
+        body('confirmPassword')
+            .trim()
+            .custom((value, { req }) => {
+                if (value !== req.body.newPassword) {
+                    throw new Error("Passwords doesn't match")
+                }
+                return true
+            })
+    ],
+    authController.changePassword);
 
 module.exports = router;

@@ -19,7 +19,8 @@ const userSchema = new Schema({
                 quantity: { type: Number, required: true }
             }
         ]
-    }
+    },
+    seller:Boolean
 });
 
 userSchema.methods.addToCart = function (product) {

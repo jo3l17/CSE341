@@ -25,6 +25,9 @@
                 <p>
                     <b>Price: <%= product.price %></b>
                 </p>
+                <p>
+                    Contact Seller: <a href="mailto:<%= product.userId.email %>"><%= product.userId.email %></a>
+                </p>
                 <% if (isAuthenticated && product.stock > 0) { %>
                 <form action="/project/cart" method="POST">
                     <input type="hidden" value="<%= product.id %>" name="productId">

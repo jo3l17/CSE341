@@ -18,49 +18,57 @@
         <% include ../includes/errorMessage.ejs %>
         <form action="/project/signup" class="row" method="POST">
             <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
-                <label for="email" class="form-label">Email</label>
-                <input
-                type="text"
-                class="form-control <%= validationErrors.find(e=>e.param === 'email') ? 'is-invalid' : ''%>"
-                id="email"
-                value="<%= oldInput.email %>"
-                name="email"
-                placeholder="name@example.com"
-                required>
-            </div>
-            <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
-                <label for="password" class="form-label">Password</label>
-                <div class="input-group">
-                    <input type="password"
-                    class="form-control <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
-                    id="password" name="password" value="<%= oldInput.password %>" pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                    title="Password should be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and a special sign."
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                    type="text"
+                    class="form-control <%= validationErrors.find(e=>e.param === 'email') ? 'is-invalid' : ''%>"
+                    id="email"
+                    value="<%= oldInput.email %>"
+                    name="email"
+                    placeholder="name@example.com"
                     required>
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="changePasswordVisibility()">
-                        <i id="password-eye" class="fas fa-eye d-none"></i>
-                        <i id="password-eye-slash" class="fas fa-eye-slash"></i>
-                    </button>
                 </div>
-            </div>
-            <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
-                <label for="confirmPassword"
-                class="form-label <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
-                >Confirm Password</label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
-                    value="<%= oldInput.confirmPassword %>"
-                    pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-                    title="Password should be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and a special sign."
-                    required>
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon" onclick="changeconfirmPasswordVisibility()">
-                        <i id="confirmPassword-eye" class="fas fa-eye d-none"></i>
-                        <i id="confirmPassword-eye-slash" class="fas fa-eye-slash"></i>
-                    </button>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password"
+                        class="form-control <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
+                        id="password" name="password" value="<%= oldInput.password %>" pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                        title="Password should be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and a special sign."
+                        required>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="changePasswordVisibility()">
+                            <i id="password-eye" class="fas fa-eye d-none"></i>
+                            <i id="password-eye-slash" class="fas fa-eye-slash"></i>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div class="mb-3 col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-md-4">
-                <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
-                <button type="submit" class="btn btn-primary w-100">Signup</button>
+                <div class="mb-3">
+                    <label for="confirmPassword"
+                    class="form-label <%= validationErrors.find(e=>e.param === 'password') ? 'is-invalid' : ''%>"
+                    >Confirm Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                        value="<%= oldInput.confirmPassword %>"
+                        pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                        title="Password should be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, and a special sign."
+                        required>
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon" onclick="changeconfirmPasswordVisibility()">
+                            <i id="confirmPassword-eye" class="fas fa-eye d-none"></i>
+                            <i id="confirmPassword-eye-slash" class="fas fa-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="isSeller" value="1" id="isSeller">
+                    <label class="form-check-label" for="isSeller">
+                        I am a Seller
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <input type="hidden" name="_csrf" id="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="btn btn-primary w-100">Signup</button>
+                </div>
             </div>
         </form>
     </div>
