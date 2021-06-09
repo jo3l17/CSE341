@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1>
+                    <%= title %>
+                </h1>
+                <p>This is the placeholder for Team Activity 03</p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <form action="?" method="GET">
+                    <div class="col-12 input-group mb-4">
+                        <input type="text" class="form-control" name="search" placeholder="Search in Items"
+                            aria-label="Search in Items" aria-describedby="button-addon2" value="<%= query %>">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                    </div>
+                </form>
+                <% if (data.length == 0) { %>
+                    <h2>No items for "<%= query %>"  found</h2>
+                <% } else { %>
+                <% data.forEach(dataItem=> { %>
+                    <div class="col-12 col-sm-6 col-md-4 mb-3">
+                        <div class="card">
+                            <img src="<%= dataItem.imageUrl %>" class="card-img-top img-card-responsive"
+                                alt="<%= dataItem.name %>">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= dataItem.name %>
+                                </h5>
+                                <p class="card-text card-text-responsive">
+                                    <%= dataItem.description %>
+                                </p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <%= dataItem.price %>
+                                </li>
+                                <li class="list-group-item">
+                                    <% for( let i=0; i < dataItem.tags.length; i++ ) { %>
+                                        <span>
+                                            <%= dataItem.tags[i]%>
+                                                <%= i !=dataItem.tags.length -1?',':'' %>
+                                        </span>
+                                        <% } %>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <% }) %>
+                    <div class="col-12">
+                        <nav aria-label="Page navigation example">
+                            <form action="?" method="GET">
+                                <% if (query != '') { %>
+                                    <input type="hidden" name="search" value="<%= query %>">
+                                <% } %>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+                                        <button type="submit" class="page-link" name="page" value="<%= page == 1 ? page : page - 1 %>">Previous</button>
+                                    </li>
+                                    <% for( let i = 1; i <= totalPages; i++ ) { %>
+                                        <!-- method 1 -->
+                                        <!-- <% if (page == i) { %>
+                                            <li class="page-item active">
+                                                <span class="page-link"><%= i %></span>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page=<%= i %><%= query!=''?'&search='+query:'' %>"><%= i %></a>
+                                            </li>
+                                        <% } %> -->
+                                        <!-- method 2 -->
+                                        <% if (page == i) { %>
+                                            <li class="page-item active">
+                                                <span class="page-link"><%= i %></span>
+                                            </li>
+                                        <% } else { %>
+                                            <li class="page-item">
+                                                <button type="submit" class="page-link" name="page" value="<%= i %>"><%= i %></button>
+                                            </li>
+                                        <% } %>
+                                    <% } %>
+                                    <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
+                                        <button type="submit" class="page-link" name="page" value="<%= page == totalPages ? page : page + 1 %>">Next</button>
+                                    </li>
+                                </ul>
+                            </form>
+                        </nav>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+</body>
+
+</html>
