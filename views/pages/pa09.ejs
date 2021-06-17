@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1>
+                    <%= title %>
+                </h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <% if (data.length == 0) { %>
+                    <h2>No pokemons found</h2>
+                <% } else { %>
+                    <div class="col-12">
+                        <ul class="list-group">
+                            <% data.forEach(pokemon=> { %>
+                                <li class="list-group-item"><%= pokemon.name %></li>
+                            <% }) %>
+                        </ul>
+                    </div>
+                    <div class="col-12">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+                                    <a href="/proveAssignments/pa09/1" class="page-link">First</a>
+                                </li>
+                                <li class="page-item <%= page == 1 ? 'disabled' : '' %>">
+                                    <a href="/proveAssignments/pa09/<%= page == 1 ? page : page - 1 %>" class="page-link">Previous</a>
+                                </li>
+                                <li class="page-item active">
+                                    <span class="page-link"><%= page %></span>
+                                </li>
+                                <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
+                                    <a href="/proveAssignments/pa09/<%= page == totalPages ? page : page + 1 %>" class="page-link">Next</a>
+                                </li>
+                                <li class="page-item <%= page == totalPages ? 'disabled' : '' %>">
+                                    <a href="/proveAssignments/pa09/<%= totalPages %>" class="page-link">Last</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+</body>
+
+</html>
