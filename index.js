@@ -19,6 +19,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 
+app.use(bodyParser.json())
+
 const store = new MongoDBStore({
    uri: MONGODB_URI,
    collection: 'sessions'
@@ -51,7 +53,7 @@ app.use(cors(corsOptions))
       saveUninitialized: false,
       store
    }))
-   .use(csrfProtection)
+   // .use(csrfProtection)
    .use(flash())
    .use((req, res, next) => {
       if (!req.session.user) {
@@ -72,7 +74,7 @@ app.use(cors(corsOptions))
    .use((req, res, next) => {
       res.locals.isAuthenticated = req.session.isLoggedIn;
       res.locals.isSeller = req.session.isSeller;
-      res.locals.csrfToken = req.csrfToken();
+      // res.locals.csrfToken = req.csrfToken();
       res.locals.errorMessage = req.flash('error');
       next();
    })

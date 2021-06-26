@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1>
+                    <%= title %>
+                </h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <label for="newAvengerInput" class="form-label">New Avenger</label>
+                        <input type="text" class="form-control" id="newAvengerInput">
+                        <button type="button" class="btn btn-primary" onclick="submitName()">Add Avenger</button>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <ul class="list-group" id="avengers_list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="/scripts/pa10.js"></script>
+
+</html>
