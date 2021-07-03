@@ -1,3 +1,9 @@
+const socket = io('/')
+
+socket.on('update-list', () => {
+    getAvengers()
+})
+
 
 const getAvengers = () => {
     const avengers = document.getElementById('avengers_list')
@@ -30,7 +36,8 @@ const submitName = () => {
     })
         .then(res => {
             document.getElementById('newAvengerInput').value = ''
-            getAvengers()
+            getAvengers();
+            socket.emit('new-avenger')
         })
         .catch(err => {
             document.getElementById('newAvengerInput').value = ''

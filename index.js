@@ -44,7 +44,7 @@ const MONGODB_URL = process.env.MONGODB_URL || process.env.MONGODB_URI;
 
 app.use(cors(corsOptions))
    .use(express.static(path.join(__dirname, 'public')))
-   .set('views', [path.join(__dirname, 'views'),path.join(__dirname, 'project/views')])
+   .set('views', [path.join(__dirname, 'views'), path.join(__dirname, 'project/views')])
    .set('view engine', 'ejs')
    .use(bodyParser({ extended: false })) // For parsing the body of a POST deprecated
    .use(session({
@@ -61,7 +61,7 @@ app.use(cors(corsOptions))
       }
       User.findById(req.session.user._id)
          .then(user => {
-            if(!user){
+            if (!user) {
                return next();
             }
             req.user = user;
@@ -88,7 +88,15 @@ mongoose
    )
    .then(result => {
       console.log('Mongoose Connected!!');
-      app.listen(PORT);
+      const server = app.listen(PORT);
+      const io = require('socket.io')(server)
+      io.on('connection', socket => {
+         console.log('Client connected')
+         socket.on('new-avenger', () => {
+            console.log("new avenger")
+            socket.broadcast.emit('update-list')
+         })
+      })
    })
    .catch(err => {
       console.log(err);
