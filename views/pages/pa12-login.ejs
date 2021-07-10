@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include ../includes/header.ejs %>
+</head>
+
+<body>
+    <% include ../includes/nav.ejs %>
+        <div class="jumbotron text-center">
+            <div class="container">
+                <h1>
+                    <%= title %>
+                </h1>
+            </div>
+        </div>
+        <div class="container">
+            <h1>Login:</h1>
+            <div class="form">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+                <button class="btn btn-primary" onclick="login()">Enter chat</button>
+            </div>
+            <div class="container" id="errMsg">
+                <!-- Blank area for login error messages -->
+            </div>
+        </div>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/scripts/pa12.js"></script>
+
+</html>
