@@ -1,4 +1,5 @@
 exports.redirect505 = (err, req, res, next) => {
+    console.log(err);
     res.status(err.httpStatusCode || 500)
     .render('500',
         { title: '500 - Error', path: req.url })

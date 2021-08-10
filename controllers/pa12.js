@@ -11,3 +11,16 @@ exports.renderChat = (req, res, next) => {
         user: req.session.user,
     });
 }
+
+const users = [];
+exports.login = (req, res, next) => {
+    const { username } = req.body;
+    if (!username || username.trim() === '')
+        return res.status(400).send({ error: 'Username cannot be empty!' });
+    if (users.includes(username.trim()))
+        return res.status(409).send({ error: 'Username exists!' });
+    users.push(username.trim());
+    req.session.users = users;
+    req.session.user = username;
+    res.status(200).send({ username: username.trim() });
+}
